@@ -1,68 +1,130 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class MenuItemWidget extends StatelessWidget {
   Color color;
 
-  IconData icon;
-
   String text;
+
+  Image image;
 
   MenuItemWidget(
       {Key? key,
       required Color this.color,
-      required IconData this.icon,
+      required Image this.image,
       required String this.text})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Material(
-        child: Container(
-            child: InkWell(
-              onTap: () {
-                print("item tapped");
-              },
-              splashColor: this.color,
-              highlightColor: this.color,
-              child: Row(
-                children: [
-                  Icon(this.icon, size: 10.0, color: this.color),
-                  Center(
-                    child: Text(
-                      text,
-                      style: TextStyle(color: this.color),
-                    ),
-                  ),
-                  Flex(
-                    direction: Axis.horizontal,
+        child: Card(
+            elevation: 15.0,
+            child: Container(
+                child: InkWell(
+                  onTap: () {
+                    print("item tapped");
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("item $text added to card successfully!")));
+                  },
+                  splashColor: Colors.lightBlue,
+                  highlightColor: Colors.lightBlue,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.favorite),
-                      Container(
-                        width: 50,
-                        height: 50,
+                      this.image,
+                      Flex(
+                        direction: Axis.vertical,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: Text(
+                              text,
+                              style: TextStyle(
+                                  color: this.color,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                          Center(
+                            child: Text(
+                              "Lorem ipsum dolor sit amet, consectetur adipisicing elit.\n Aliquid atque natus nemo, soluta unde voluptate!",
+                              style: TextStyle(
+                                  color: this.color,
+                                  fontWeight: FontWeight.w100),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.favorite,
+                              color: Random.secure().nextBool()
+                                  ? Colors.black
+                                  : Colors.purple,
+                            ),
+                          )
+                        ],
                       )
                     ],
-                  )
-                ],
-              ),
-            ),
-            padding: EdgeInsets.only(right: 5)));
+                  ),
+                ),
+                padding: EdgeInsets.only(right: 5))));
   }
 }
 
 class MenuWidget extends StatelessWidget {
   late BuildContext context;
+
+  MenuWidget({super.key});
   @override
   Widget build(BuildContext context) {
-    this.context=context;
-    return ListView.builder(
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return MenuItemWidget(
-            icon: Icons.ac_unit_outlined,
-            color: Colors.red,
-            text: "this is awsome " + index.toString(),
-          );
-        });
+    this.context = context;
+    return Scaffold(
+        appBar: AppBar(title: Text("Menu")),
+        body: ListView.builder(
+            itemCount: 10,
+            itemBuilder: (context, index) {
+              return MenuItemWidget(
+                image: Image.asset("assets/imgs/dessert.jpeg"),
+                color: Colors.black,
+                text: "Dessert " + index.toString(),
+              );
+            },
+        ),
+        floatingActionButton: SizedBox(
+            width: 300,
+            height: 100,
+            child: Card(
+              shadowColor: Colors.black,
+              elevation: 10,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Center(
+                        child: Container(
+                            child: Text("15 items"),
+                            padding: EdgeInsets.all(15))),
+                    ElevatedButton(
+                        onPressed: () {
+                          print('btn pressed');
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(SnackBar(content: Text("Page under maintainance")));                         },
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [Text("Checkout now"), Icon(Icons.payment)]))
+                  ]),
+            )));
   }
 }
+/**
+    ListView.builder(
+    itemCount: 10,
+    itemBuilder: (context, index) {
+    return MenuItemWidget(
+    icon: Icons.ac_unit_outlined,
+    color: Colors.red,
+    text: "this is awsome " + index.toString(),
+    );
+    });
+
+
+ */
