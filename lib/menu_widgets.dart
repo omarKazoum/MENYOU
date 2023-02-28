@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MenuItemWidget extends StatelessWidget {
   Color color;
@@ -11,17 +12,26 @@ class MenuItemWidget extends StatelessWidget {
 
   MenuItemWidget(
       {Key? key,
-      required Color this.color,
-      required Image this.image,
-      required String this.text})
+      required this.color,
+      required this.image,
+      required this.text})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Material(
         child: Card(
+            
+            shape: RoundedRectangleBorder( //<-- 1. SEE HERE
+              side: BorderSide(
+                color: Colors.white10,
+                width: 3,
+              ),
+              borderRadius: BorderRadius.circular(20.0),
+            ),
             elevation: 15.0,
             child: Container(
+                padding: EdgeInsets.all(16),
                 child: InkWell(
                   onTap: () {
                     print("item tapped");
@@ -32,11 +42,17 @@ class MenuItemWidget extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      this.image,
+                      image,
                       Flex(
                         direction: Axis.vertical,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+ RatingBar.builder(itemBuilder: (context,index){
+                              return Container(width:10,height:10,child:Icon(Icons.star,color: Colors.amber,size: 8,));
+                            }, onRatingUpdate: (rating){
+                              print("rating updated");
+                            },itemCount: 5,allowHalfRating: false,initialRating: Random.secure().nextDouble()),
+
                           Center(
                             child: Text(
                               text,
@@ -66,8 +82,7 @@ class MenuItemWidget extends StatelessWidget {
                       )
                     ],
                   ),
-                ),
-                padding: EdgeInsets.only(right: 5))));
+                ))));
   }
 }
 
@@ -115,16 +130,3 @@ class MenuWidget extends StatelessWidget {
             )));
   }
 }
-/**
-    ListView.builder(
-    itemCount: 10,
-    itemBuilder: (context, index) {
-    return MenuItemWidget(
-    icon: Icons.ac_unit_outlined,
-    color: Colors.red,
-    text: "this is awsome " + index.toString(),
-    );
-    });
-
-
- */
