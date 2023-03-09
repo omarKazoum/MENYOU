@@ -1,5 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:test_widget/menu_widgets.dart';
+import 'menu_widgets.dart';
 
 class HomeWidget extends StatelessWidget {
   final ButtonStyle style =
@@ -10,10 +12,15 @@ class HomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DefaultAssetBundle.of(context).loadString("assets/test.json").then((value) =>
+      print(jsonDecode(value)['name'])
+    );
+
+
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-            appBar: AppBar(title: Text("MENYOU™")),
+            appBar: AppBar(title: Text("OnTimeDining")),
             body: SingleChildScrollView(child:Flex(
                 direction: Axis.vertical,
                 crossAxisAlignment: CrossAxisAlignment.start,

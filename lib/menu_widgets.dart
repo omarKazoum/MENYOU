@@ -21,7 +21,6 @@ class MenuItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
         child: Card(
-            
             shape: RoundedRectangleBorder( //<-- 1. SEE HERE
               side: BorderSide(
                 color: Colors.white10,
@@ -105,28 +104,10 @@ class MenuWidget extends StatelessWidget {
               );
             },
         ),
-        floatingActionButton: SizedBox(
-            width: 300,
-            height: 100,
-            child: Card(
-              shadowColor: Colors.black,
-              elevation: 10,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Center(
-                        child: Container(
-                            child: Text("15 items"),
-                            padding: EdgeInsets.all(15))),
-                    ElevatedButton(
-                        onPressed: () {
-                          print('btn pressed');
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(SnackBar(content: Text("Page under maintainance")));                         },
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [Text("Checkout now"), Icon(Icons.payment)]))
-                  ]),
-            )));
+        floatingActionButton: FloatingActionButton(onPressed: () {
+
+        },
+        child: Icon(Icons.check_outlined),)
+    );
   }
 }
