@@ -1,42 +1,43 @@
 
-import 'package:OnTimeDining/app_service.dart';
-import 'package:OnTimeDining/menu_widgets.dart';
+import 'package:OnTimeDining/database/core/database_manager.dart';
 import 'package:flutter/material.dart';
+
+import 'menu/menu_widget.dart';
 
 Color appDarkBlue=const Color(0xff3F497F);
 Color appYellow=const Color(0xffF7C04A);
 
 class MainScreen extends StatefulWidget{
-  AppService appService;
 
-  MainScreen({required this.appService});
+  MainScreen();
 
   @override
   State<StatefulWidget> createState() {
-    return _MainScreenState(appService: this.appService);
+    return _MainScreenState();
   }
 
 }
 class _MainScreenState extends State<MainScreen>{
-  AppService appService;
-  List<Widget> _children= [
-    MenuWidget(),
-    Center(child: Text("cart selected but not purchased items " + 1.toString())),
-    Center(child: Text("menu available items " + 2.toString()))
-  ];
   int _activePageIndex=0;
 
-  _MainScreenState({required this.appService});
-
+  _MainScreenState();
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _children= [
+      MenuWidget(),
+      Center(child: Text("cart selected but not purchased items " + 1.toString())),
+      Center(child: Text("menu available items " + 2.toString()))
+    ];
+
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: appDarkBlue
       ),
       home: Scaffold(
+        floatingActionButton: null,
         body:_children[_activePageIndex] ,
         bottomNavigationBar:
         BottomNavigationBar(
