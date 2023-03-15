@@ -1,55 +1,84 @@
-import 'package:OnTimeDining/database/core/database_manager.dart';
-import 'package:OnTimeDining/widgets/main_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:on_time_dining_flutter/services/notifications_service.dart';
 
-import 'database/models/recipe_model.dart';
+import 'services/database_service.dart';
+import 'widgets/main_widget.dart';
 
-String DATABASE_NAME='test.db';
+String DATABASE_NAME = 'test.db';
+late DatabaseService databaseService;
 void main() async {
-  late DatabaseManager databaseManager;
-  WidgetsFlutterBinding.ensureInitialized();
-  databaseManager=DatabaseManager.getInstance();
-     databaseManager.init().then((databaseManager) {
-    //   databaseManager.insert(RecipeModel(name: "some recipe", description: "lorem epsum description", imageUrl: "https://picsum.photos/200")).then((value) {
-    //   runApp(MainScreen());
-    // })
-  runApp(MainScreen());
+  // await setupNotification();
+  runApp(SplashScreen());
+}
 
-  });
-  //create
-  // var databaseManager = DatabaseManager("test_db.db");
-  // databaseManager.init().then((databaseManager) {
-  //   databaseManager
-  //       .insert(RecipeModel(id:1,name: "recipe 2", description: "some description",imageUrl: "https://picsum.photos/200"))
-  //       .then((value) => {print("recipe added")});
-  //
-  // });
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
 
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
 
-  //update
-  //  var databaseManager = DatabaseManager("test_db.db");
-  // databaseManager.init().then((databaseManager) {
-  //   databaseManager
-  //       .update(RecipeModel(id:1,name: "recipe changed name", description: "some description"))
-  //       .then((value) => {print("recipe updated")});
-  // });
+class _SplashScreenState extends State<SplashScreen> {
+  bool isLoading = true;
+  @override
+  Widget build(BuildContext context) {
+    databaseService = DatabaseService.getInstance();
+    databaseService.init().then((databaseManager) async {
+      // databaseService.insertDummyData().then((value) => {
+      WidgetsFlutterBinding.ensureInitialized();
+      Future.delayed(Duration(seconds: 5), () {
+        NotificationService().init();
+        setState(() {
+          isLoading = false;
+        });
+      });
+      // });
+    });
+    return isLoading ? loadingWidget() : MainPage();
+  }
 
+  loadingWidget() {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: '',
+      home: Container(
+        color: Colors.white,
+        width: double.infinity,
+        height: double.infinity,
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                  width: 150,
+                  height: 150,
+                  child: FittedBox(
+                      fit: BoxFit.fill, child: Container(decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(color: Colors.grey.withOpacity(0.4),spreadRadius: 5,
+                          blurRadius: 20,
+                          offset: Offset(0, 1),)
+                      ]
+                  ),child: Icon(Icons.restaurant,color: Colors.orange)))),
+              Container(
 
-  //delete
- // var databaseManager = DatabaseManager("test_db.db");
- //  databaseManager.init().then((databaseManager) {
- //    databaseManager
- //        .delete(RecipeModel(id:1,name: "recipe changed name", description: "some description"))
- //        .then((value) => {print("recipe deleted")});
- //  });
-
-  //select
-  // var databaseManager = DatabaseManager("test_db.db");
-  //    databaseManager.init().then((databaseManager) {
-  //      databaseManager
-  //          .selectAll(RecipeModel(id:1,name: "recipe changed name", description: "some description",imageUrl:"https://picsum.photos/200"))
-  //          .then((value) => {print(value)});
-  //    });
-
+                margin: EdgeInsets.all(25),
+                child: Text(
+                  "On Time Dinning !",textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.orange, decoration: TextDecoration.none),
+                ),
+              ),
+              Container(child: CircularProgressIndicator(color: Colors.orange,),),
+/*
+              Container(margin:EdgeInsets.all(10),child: Text('loading...',style: TextStyle(color: Colors.orange,decoration: TextDecoration.none,fontSize: 15),),)
+*/
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

@@ -7,23 +7,25 @@ import '../core/model.dart';
 
 class RecipeModel extends Model {
   String tableName = 'recipes';
-  String name;
+  String title;
   String description;
   String imageUrl;
+  double price;
+  int restaurantId;
 
-  RecipeModel({id, required this.name, required this.description,required this.imageUrl}):super(id);
+  RecipeModel({required this.price,required int id,required this.restaurantId, required this.title, required this.description,required this.imageUrl}):super(id);
   @override
   Map<String, dynamic> toMap() {
-    return {'name': this.name, 'description': this.description, 'id': this.id,'imageUrl':this.imageUrl};
+    return {'price':this.price,'title': this.title, 'description': this.description, 'id': this.id,'imageUrl':this.imageUrl,'restaurantId':this.restaurantId};
   }
 
   @override
   Model fromMap(Map<String,dynamic> map) {
-    return RecipeModel(name:map['name'] , description: map['description'],id:map['id'],imageUrl:map['imageUrl'] );
+    return RecipeModel(price: map['price'],restaurantId:this.restaurantId,title:map['title'] , description: map['description'],id:map['id'],imageUrl:map['imageUrl'] );
   }
 
   @override
   String toString() {
-    return 'RecipeModel{name: $name, description: $description,id: ${super.id},imageUrl: $imageUrl}';
+    return 'RecipeModel{tableName: $tableName, title: $title, description: $description, imageUrl: $imageUrl, price: $price, restaurantId: $restaurantId}';
   }
 }

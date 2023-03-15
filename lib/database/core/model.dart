@@ -7,4 +7,5 @@ abstract class Model {
     throw UnimplementedError();
   }
   Model fromMap(Map<String,dynamic> map);
+  Model.empty();
 }

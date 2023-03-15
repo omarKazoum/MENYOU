@@ -1,6 +1,6 @@
-# test_widget
+# on_time_dining_flutter
 
-A new Flutter project.
+restaurant mobile app
 
 ## Getting Started
 
