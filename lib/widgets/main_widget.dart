@@ -25,7 +25,6 @@ class _MainPageState extends State<MainPage>{
   _MainPageState();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     this.pageTitles=[
       'your cart',
@@ -44,7 +43,6 @@ class _MainPageState extends State<MainPage>{
       ),
       home: Scaffold(
         appBar: AppBar(title: Text(pageTitles.elementAt(_activePageIndex)),),
-        floatingActionButton: _activePageIndex==0?CartActionWidget():null,
         body:getPageAtIndex(_activePageIndex),
         bottomNavigationBar:
         BottomNavigationBar(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:on_time_dining_flutter/widgets/cart/cart_actions_widget.dart';
 
 import '../../main.dart';
 import 'cart_item_widget.dart';
@@ -7,10 +8,10 @@ class CartWidget extends StatefulWidget {
   const CartWidget({Key? key}) : super(key: key);
 
   @override
-  State<CartWidget> createState() => _CartWidgetState();
+  State<CartWidget> createState() => CartWidgetState();
 }
 
-class _CartWidgetState extends State<CartWidget> {
+class CartWidgetState extends State<CartWidget> {
   double totalDue = 0;
   bool isLoading = true;
   List<Map<String, dynamic>> cartItems = [];
@@ -23,23 +24,26 @@ class _CartWidgetState extends State<CartWidget> {
             child: Container(
                 width: 100, height: 100, child: CircularProgressIndicator()),
           )
-        : ListView.builder(
-            itemCount: cartItems.length+1,
-            itemBuilder: (context, index) {
-                if(index<cartItems.length)
-                  return CartItemWidget(cartItemMap: cartItems[index]);
-                else {
-                  return Card(color:Colors.orange,child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Text('Toatal Due: ',style:TextStyle(color:Colors.white)),
-                      Text('$totalDue MAD',style:TextStyle(color:Colors.blue.shade900,fontWeight: FontWeight.bold))
-                    ],
-                  ),
-                ));
-                }
-            });
+        : Scaffold(
+          floatingActionButton:CartActionWidget(cartWidgetState: this,) ,
+          body: ListView.builder(
+              itemCount: cartItems.length+1,
+              itemBuilder: (context, index) {
+                  if(index<cartItems.length)
+                    return CartItemWidget(cartItemMap: cartItems[index]);
+                  else {
+                    return Card(color:Colors.orange,child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Text('Toatal Due: ',style:TextStyle(color:Colors.white)),
+                        Text('$totalDue MAD',style:TextStyle(color:Colors.blue.shade900,fontWeight: FontWeight.bold))
+                      ],
+                    ),
+                  ));
+                  }
+              }),
+        );
   }
 
   Future<void> loadCartItems() async {
@@ -63,5 +67,11 @@ class _CartWidgetState extends State<CartWidget> {
     // TODO: implement initState
     super.initState();
     print('init state called in cart');
+  }
+
+  void reloadCart() {
+    setState(() {
+      isLoading=true;
+    });
   }
 }

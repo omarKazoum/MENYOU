@@ -25,15 +25,15 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     databaseService = DatabaseService.getInstance();
     databaseService.init().then((databaseManager) async {
-      // databaseService.insertDummyData().then((value) => {
-      WidgetsFlutterBinding.ensureInitialized();
-      Future.delayed(Duration(seconds: 5), () {
-        NotificationService().init();
-        setState(() {
-          isLoading = false;
-        });
-      });
-      // });
+       //databaseService.insertDummyData().then((value) => {
+          Future.delayed(Duration(seconds: 2), () {
+            WidgetsFlutterBinding.ensureInitialized();
+            NotificationService().init();
+            setState(() {
+              isLoading = false;
+            });
+          });
+       //});
     });
     return isLoading ? loadingWidget() : MainPage();
   }

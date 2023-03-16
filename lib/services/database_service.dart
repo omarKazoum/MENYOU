@@ -52,7 +52,7 @@ class DatabaseService {
   Future<int> insert(Model model) async {
     Map<String,dynamic> mapData=model.toMap();
     mapData.remove("id");
-      print("database is null${mDatabase==null}");
+      //print("database is null${mDatabase==null}");
     return mDatabase!.insert(model.tableName, mapData,
         conflictAlgorithm: this.conflictAlgo);
   }
@@ -83,7 +83,7 @@ class DatabaseService {
       await insert(RestaurantModel(id: i,title: "restaurant $i", description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit, sint. $i", imageUrl: "https://picsum.photos/200/300?random=$i"));
       //insert recipes
       for(int r=1;r<5;r++) {
-        await insert(RecipeModel(price: r*10,id:0, restaurantId: i, title: 'recipe $r', description: '<p>Lorem ipsum dolor sit amet.</p>', imageUrl:  "https://picsum.photos/200/300?random=${i*r}"));
+        await insert(RecipeModel(price: r*10,id:0, restaurantId: i, title: 'recipe $r', description: 'Lorem ipsum dolor sit amet.', imageUrl:  "https://picsum.photos/300?random=${i*r}"));
       }
     }
 

@@ -36,7 +36,7 @@ class OrderItemWidget extends StatelessWidget {
                     fontWeight: FontWeight.w300, color: Colors.black54),
               ),
               Text(
-                "total of ${orderMap['amount']}",
+                "total of ${orderMap['amount']}MAD",
                 style: TextStyle(
                     fontWeight: FontWeight.w300, color: Colors.black54),
               ),
